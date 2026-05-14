@@ -12,6 +12,9 @@ from datetime import datetime
 
 from bleak import BleakClient, BleakScanner, BleakError
 
+from homeassistant.core import HomeAssistant
+from homeassistant.components import bluetooth
+
 from .const import (
     DeviceType,
     DEFAULT_CONNECT_TIMEOUT,
@@ -44,6 +47,7 @@ class ScentDiffuserDevice:
 
     def __init__(
         self,
+        hass: HomeAssistant | None = None,
         ble_address: str | None = None,
         ble_name: str | None = None,
         device_type: DeviceType | None = None,
@@ -52,6 +56,7 @@ class ScentDiffuserDevice:
         sm_metadata: dict | None = None,
         gw_password: str | None = None,
     ) -> None:
+        self._hass = hass
         # Detection metadata from the config flow — populated only for
         # Scent Marketing family devices.
         self._sm_metadata = sm_metadata or {}
@@ -217,8 +222,16 @@ class ScentDiffuserDevice:
 
             try:
                 _LOGGER.debug("BLE connecting to %s", self._ble_name)
+                
+                # Fetch BLEDevice from Home Assistant's scanner cache
+                ble_device = None
+                if self._hass and self._ble_address:
+                    ble_device = bluetooth.async_ble_device_from_address(self._hass, self._ble_address, connectable=True)
+                
+                connect_target = ble_device if ble_device else self._ble_address
+
                 self._ble_client = BleakClient(
-                    self._ble_address,
+                    connect_target,
                     timeout=DEFAULT_CONNECT_TIMEOUT,
                 )
                 await self._ble_client.connect()

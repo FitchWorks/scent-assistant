@@ -74,7 +74,7 @@ SM_GW_ALT_WRITE_UUID = "0000ff03-0000-1000-8000-00805f9b34fb"
 # ---------------------------------------------------------------------------
 
 BLE_NAME_PATTERNS = {
-    DeviceType.AROMA_LINK: ["Scent "],
+    DeviceType.AROMA_LINK: ["Scent ", "AH Diffuser"],
     DeviceType.TUYA_BLE: ["BT-ivy"],
     DeviceType.SCENTIMENT: ["Scentiment"],
 }

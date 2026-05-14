@@ -2,6 +2,7 @@
   "domain": "scent_assistant",
   "name": "Scent Assistant",
   "bluetooth": [
+    { "local_name": "AH Diffuser*" },
     { "local_name": "Scent *" },
     { "local_name": "BT-ivy*" },
     { "local_name": "Scentiment*" },
@@ -12,7 +13,7 @@
   ],
   "codeowners": ["@mr-sparks"],
   "config_flow": true,
-  "dependencies": [],
+  "dependencies": ["bluetooth"],
   "documentation": "https://github.com/mr-sparks/scent-assistant",
   "iot_class": "local_push",
   "issue_tracker": "https://github.com/mr-sparks/scent-assistant/issues",
